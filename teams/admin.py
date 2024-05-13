@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from src.players.models import Player
-from src.teams.models import Team
+from players.models import Player
+from teams.models import Team
 
 
 

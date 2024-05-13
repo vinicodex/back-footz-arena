@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
-from src.teams.models import Team
+from teams.models import Team
 
 
 class Player(models.Model):

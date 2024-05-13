@@ -1,5 +1,5 @@
 from django.db import models
-from src.tournament.models import Tournament
+from tournament.models import Tournament
 
 
 class Team(models.Model):

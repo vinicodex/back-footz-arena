@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from .models import Team
 from django.contrib.auth.models import User
 from .serializers import TeamSerializer
-from src.tournament.models import Tournament
+from tournament.models import Tournament
 from ..players.models import Player
 
 
