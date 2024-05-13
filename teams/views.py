@@ -4,7 +4,7 @@ from .models import Team
 from django.contrib.auth.models import User
 from .serializers import TeamSerializer
 from tournament.models import Tournament
-from ..players.models import Player
+from players.models import Player
 
 
 class TeamListCreate(generics.ListCreateAPIView):
