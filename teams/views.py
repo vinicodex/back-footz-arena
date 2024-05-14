@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .serializers import TeamSerializer
 from tournament.models import Tournament
 from players.models import Player
+from rest_framework.permissions import AllowAny
+
 
 
 
