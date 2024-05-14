@@ -7,9 +7,12 @@ from tournament.models import Tournament
 from players.models import Player
 
 
+
 class TeamListCreate(generics.ListCreateAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
+    permission_classes = (AllowAny,)
+
 
     def perform_create(self, serializer):
         serializer.save()
@@ -41,3 +44,5 @@ class TeamListCreate(generics.ListCreateAPIView):
 class TeamRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
+    permission_classes = (AllowAny,)
+
