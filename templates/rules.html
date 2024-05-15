@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-gray-300 container mx-auto p-8 overflow-hidden md:rounded-lg md:p-10 lg:p-12">
+        <div class="flex justify-between">
+            <h1 class="font-serif text-3xl font-medium">FOOTZ ARENA</h1>
+            <a href="https://github.com/gary149/landing-gradients"
+                class="self-start px-3 py-2 leading-none text-gray-200 border border-gray-800 rounded-lg focus:outline-none focus:shadow-outline bg-gradient-to-b hover:from-indigo-500 from-gray-900 to-black">
+                 <div class="w-10 h-10 bg-white rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="40" height="40" viewBox="0 0 50 50">
+                    <path d="M 16 3 C 8.83 3 3 8.83 3 16 L 3 34 C 3 41.17 8.83 47 16 47 L 34 47 C 41.17 47 47 41.17 47 34 L 47 16 C 47 8.83 41.17 3 34 3 L 16 3 z M 37 11 C 38.1 11 39 11.9 39 13 C 39 14.1 38.1 15 37 15 C 35.9 15 35 14.1 35 13 C 35 11.9 35.9 11 37 11 z M 25 14 C 31.07 14 36 18.93 36 25 C 36 31.07 31.07 36 25 36 C 18.93 36 14 31.07 14 25 C 14 18.93 18.93 14 25 14 z M 25 16 C 20.04 16 16 20.04 16 25 C 16 29.96 20.04 34 25 34 C 29.96 34 34 29.96 34 25 C 34 20.04 29.96 16 25 16 z"></path>
+                </svg>
+                 </div>
+            </a>
+        </div>
+        <div class="h-10"></div>
+
+        <div class="grid gap-8 md:grid-cols-3">
+            <div class="flex flex-col justify-center md:col-span-2">
+                <h2 class="text-4xl font-bold">Competição 3x3</h2>
+                <div class="h-6"></div>
+                <p class="font-serif text-xl text-gray-400 md:pr-10">
+                    3x3 até 4 jogadores, uma batalha insana de 8 minutos, quem fizer mais gol ganha,
+                    mas cuidado com as pernas, A caneta pode te eliminar!
+                </p>
+                <div class="h-8"></div>
+                {% for rule in rules %}
+                <p class="font-serif text-xl text-gray-400 md:pr-10 mb-4">
+                    <span class="font-sans text-xl font-medium text-transparent bg-clip-text bg-gradient-to-br from-yellow-400 to-yellow-600">
+                    {{ rule.name }}:
+                    </span>
+                    {{ rule.description }}
+                </p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="h-10 md:h-40"></div>
+
+        <div class="grid gap-4 md:grid-cols-4">
+            <ul class="space-y-1 text-gray-400">
+                <li class="pb-4 font-serif text-gray-400">
+                    🌐Redes Sociais</li>
+                <li>
+                    <a href="https://instagram.com/footz_arena" class="hover:underline">instagram</a>
+                </li>
+                <li>
+                    <a href="#" class="hover:underline">Youtube</a>
+                </li>
+            </ul>
+            <ul class="space-y-1 text-gray-400">
+                <li class="pb-4 font-serif text-gray-400">
+                    🌐3V3</li>
+                <li>
+                    <a href="{% url 'subscribe' %}" class="hover:underline">Inscreva-se</a>
+                </li>
+                <li>
+                    <a href="/" class="hover:underline">Volte ao inicio</a>
+                </li>
+            </ul>
+
+        </div>
+        <div class="h-12"></div>
+    </div>
+{%  endblock %}

@@ -1,40 +1,52 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Team, Player, Tournament
-from .serializers import TeamSerializer
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render
+from tournament.models import Rule, Tournament
+from teams.models import Team
+from players.models import Player
 
 
-@api_view(['GET', 'POST'])
-def team_list_create(request):
+def index(request):
+    return render(request, 'index.html')
+
+
+def read_rules(request):
+    rules = Rule.objects.all()
+    return render(request, 'rules.html', context={'rules': rules})
+
+
+def subscribe(request):
     if request.method == 'GET':
-        teams = Team.objects.all()
-        serializer = TeamSerializer(teams, many=True)
-        return Response(serializer.data)
+        return render(request, 'subscribe.html')
 
-    elif request.method == 'POST':
-        tournament = get_object_or_404(Tournament, pk=1)
+    if request.method == 'POST':
+        data = request.POST.dict()
+        team_filter = Team.objects.filter(name__icontains=data['team_name']).first()
+        if not team_filter:
+            tournament = Tournament.objects.all()[0]
+            team_filter = Team.objects.create(name=data['team_name'], tournament=tournament)
 
-        team_name = request.data.get('teamName')
-        if Team.objects.filter(name=team_name).exists():
-            return Response({'error': 'Team already exists'}, status=status.HTTP_400_BAD_REQUEST)
+        if Player.objects.filter(first_name__icontains=data['captain_name'], instagram_user__icontains=data['captain_instagram']).exists():
+            error = {'error': f'Já existe um capitão com esse nome {data["captain_name"]} e {data["captain_instagram"]}.'}
+            return render(request, 'subscribe.html', context=error)
 
-        team = Team.objects.create(name=team_name)
+        players = [data['player_1_name'], data['player_2_name'], data['player_3_name']]
 
-        players_data = request.data.get('players', [])
-        for player_data in players_data:
-            Player.objects.create(
-                first_name=player_data.get('name'),
-                birth_date=player_data.get('dob'),
-                email=player_data.get('email'),
-                phone_number=player_data.get('phone'),
-                instagram_user=player_data.get('instagram'),
-                team=team,
-                is_captain=player_data.get('is_captain', False),
-            )
+        if Player.objects.filter(first_name__in=players).exists():
+            error = {'Já existe um jogador com esse nome cadastrado'}
+            return render(request, 'subscribe.html', context=error)
 
-        team.tournament = tournament
-        team.save()
-        serializer = TeamSerializer(team)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        Player.objects.create(first_name=data['captain_name'],
+                              phone_number=data['captain_phone'],
+                              instagram_user=data['captain_instagram'],
+                              is_captain=True,
+                              team=team_filter)
+        Player.objects.create(first_name=data['player_1_name'],
+                              instagram_user=data['player_1_instagram'],
+                              team=team_filter)
+        Player.objects.create(first_name=data['player_2_name'],
+                              instagram_user=data['player_2_instagram'],
+                              team=team_filter)
+        Player.objects.create(first_name=data['player_3_name'],
+                              instagram_user=data['player_3_instagram'],
+                              team=team_filter)
+        return render(request, 'index.html')
